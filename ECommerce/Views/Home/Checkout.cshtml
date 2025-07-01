@@ -1,0 +1,1123 @@
+﻿@model ECommerce.Models.Checkout
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- page-title -->
+<div class="page-title" style="background-image: url('@Url.Content("~/content/images/section/page-title.jpg")');">
+    <div class="container-full">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="heading text-center">Checkout</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page-title -->
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Left Section: Delivery Address & Payment -->
+        <div class="col-md-7">
+            <!-- Select Delivery Address -->
+            <div class="card p-4 mb-4">
+                <h5><strong>Delivery address</strong></h5>
+                <hr>
+                <div class="delivery-address">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="addressListContainer" class="col-md-11 float-start mb-3">
+                            </div> <!-- Address List Section -->
+                        </div>
+                    </div>
+                    <div class="float-end">
+                        <a href="#" class="text-primary" id="addNewAddress" data-bs-toggle="modal" data-bs-target="#addAddressModal">
+                            Add a new delivery address
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Payment Method -->
+            <div class="card p-4 mb-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6 d-flex align-items-center">
+                                <input type="radio" name="payment-mode" value="COD" id="cash-payment" checked>&nbsp;
+                                <h5><strong>Pay on Delivery - Cash</strong></h5>
+                            </div>
+
+                            <div class="col-md-6 d-flex align-items-center">
+                                <input type="radio" name="payment-mode" value="Card" id="card-payment">&nbsp;
+                                <h5><strong>Pay with Card</strong></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-4 mb-4 ">
+                <div class="col-xl-12">
+                    <div class="flat-sidebar-checkout">
+                        <div class="sidebar-checkout-content">
+                            <h5 class="title">Shopping Cart</h5>
+                            <div class="list-product">
+                                <div class="item-product">
+                                    <a href="product-detail.html" class="img-product">
+                                        <img src="images/products/womens/women-19.jpg" alt="img-product">
+                                    </a>
+                                    <div class="content-box">
+                                        <div class="info">
+                                            <a href="product-detail.html" class="name-product link text-title">V-neck cotton T-shirt</a>
+                                            <div class="variant text-caption-1 text-secondary"><span class="size">XL</span>/<span class="color">Blue</span></div>
+                                        </div>
+                                        <div class="total-price text-button"><span class="count">1</span>X<span class="price">$60.00</span></div>
+                                    </div>
+                                </div>
+                                <div class="item-product">
+                                    <a href="product-detail.html" class="img-product">
+                                        <img src="images/products/womens/women-1.jpg" alt="img-product">
+                                    </a>
+                                    <div class="content-box">
+                                        <div class="info">
+                                            <a href="product-detail.html" class="name-product link text-title">Polarized sunglasses</a>
+                                            <div class="variant text-caption-1 text-secondary"><span class="size">XL</span>/<span class="color">Blue</span></div>
+                                        </div>
+                                        <div class="total-price text-button"><span class="count">1</span>X<span class="price">$60.00</span></div>
+                                    </div>
+                                </div>
+                                <div class="item-product">
+                                    <a href="product-detail.html" class="img-product">
+                                        <img src="images/products/womens/women-29.jpg" alt="img-product">
+                                    </a>
+                                    <div class="content-box">
+                                        <div class="info">
+                                            <a href="product-detail.html" class="name-product link text-title">Ramie shirt with pockets </a>
+                                            <div class="variant text-caption-1 text-secondary"><span class="size">XL</span>/<span class="color">Blue</span></div>
+                                        </div>
+                                        <div class="total-price text-button"><span class="count">1</span>X<span class="price">$60.00</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sec-discount">
+                                <div class="swiper tf-sw-categories" id="couponSwiper">
+                                    <div class="swiper-wrapper" id="couponContainer">
+                                        <!-- Coupons will be dynamically inserted here -->
+                                    </div>
+                                </div>
+                                <div class="ip-discount-code">
+                                    <input type="text" id="CoupanCode" name="CoupanCode" placeholder="Add voucher discount">
+                                    <button type="button" class="tf-btn" onclick="applyCoupon()">
+                                        <span class="text">Apply Code</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="orderSummarySection" class="col-xl-4">
+            <div class="fl-sidebar-cart">
+                <div class="box-order bg-surface">
+                    <h5 class="title">Order Summary</h5>
+                    <div class="subtotal text-button d-flex justify-content-between align-items-center">
+                        <span>Total</span>
+                        <span class="total">₹0.00</span>
+                    </div>
+                    <div class="subtotal">
+                        <div class="text-button d-flex justify-content-between align-items-center">
+                            <span>Delivary</span>
+                            <span id="deliveryCharge" class="price">₹0.00</span>
+                        </div>
+                    </div>
+                    <div class="subtotal">
+                        <div class="text-button d-flex justify-content-between align-items-center">
+                            <span>Final Amount</span>
+                            <span id="finalAmount" class="price">₹0.00</span>
+                        </div>
+                    </div>
+                    <div class="subtotal">
+                        <div class="text-button d-flex justify-content-between align-items-center">
+                            <span>Promotion Applied</span>
+                            <span id="promotionApplied" class="price">₹0.00</span>
+                        </div>
+                    </div>
+
+                    <h5 class="total-order d-flex justify-content-between align-items-center">
+                        <span>Order Total</span>
+                        <span class="total" id="orderTotalAmount">₹0.00</span>
+                    </h5>
+                    <div class="box-progress-checkout">
+                        <fieldset class="check-agree">
+                            @* <input type="checkbox" id="check-agree" class="tf-check-rounded">
+                            <label for="check-agree">
+                                I agree with the <a href="term-of-use.html">terms and conditions</a>
+                            </label> *@
+                        </fieldset>
+                        <button id="placeOrderBtn" class="tf-btn btn-reset">Place Your Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Address Modal -->
+<div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Add an address</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addressForm">
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" id="fullName" class="form-control" placeholder="Full Name">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Mobile Number</label>
+                        <input type="text" id="mobile" class="form-control" placeholder="Mobile number">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Address</label>
+                        <input type="text" id="address" class="form-control" placeholder="Address">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Country/Region</label>
+                        <select class="form-control">
+                            <option>India</option>
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">State</label>
+                            <select id="state" class="form-control">
+                                <option>Choose a state</option>
+                                <option>Gujarat</option>
+                                <option>Maharashtra</option>
+                                <option>Delhi</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Town/City</label>
+                            <input type="text" id="city" class="form-control" placeholder="City">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Pincode</label>
+                        <input type="text" class="form-control" id="zipCode" placeholder="6 digits [0-9] PIN code">
+                    </div>
+
+                    <button type="submit" id="modalSubmitButton" class="btn btn-warning w-100 mt-3">Add this address</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Order Success Modal -->
+<div class="modal fade" id="orderSuccessModal" tabindex="-1" aria-labelledby="orderSuccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="orderSuccessModalLabel">Success</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <h5> Order placed successfully!</h5>
+            </div>
+            <div class="modal-footer">
+                <button asp-action="Orders" asp-controller="Home" type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async function () {
+        let addressListContainer = document.getElementById("addressListContainer");
+
+        try {
+            let response = await fetch(`/Home/GetAddresses`);
+            let addresses = await response.json();
+
+            //  Ensure the response is an array
+            if (!Array.isArray(addresses)) {
+                throw new Error("Invalid API response: Expected an array.");
+            }
+
+            if (addresses.length === 0) {
+                addressListContainer.innerHTML = `<p>No saved addresses found.</p>`;
+                return;
+            }
+
+            let storedAddress = JSON.parse(localStorage.getItem("selectedAddress")) || null;
+
+            let addressHTML = "";
+            addresses.forEach((address, index) => {
+                let isHidden = index >= 2 ? "d-none extra-address" : ""; // Hide addresses beyond the first two
+
+                addressHTML += `
+                    <div class="delivery-address p-2 border rounded mb-2 d-flex align-items-start ${isHidden}">
+                        <div class="me-2">
+                            <input type="radio" name="selectedAddress" class="select-address mt-2" ${index === 0 ? "checked" : ""} data-id="${address.addressId}">
+                        </div>
+                        <div class="flex-grow-1">
+                            <strong>${address.fullName}</strong>
+                            <p class="mb-1">${address.address}, ${address.city}, ${address.state}, ${address.zipCode}, ${address.country}</p>
+                            <a href="#" class="text-primary edit-address" data-id="${address.addressId}">Edit address</a>
+                        </div>
+                    </div>`;
+            });
+
+            // Add "Show More / Show Less" button if there are more than 2 addresses
+            if (addresses.length > 2) {
+                addressHTML += `
+                    <button id="toggleAddresses" class="btn btn-link text-primary">Show More</button>`;
+            }
+
+            addressListContainer.innerHTML = addressHTML;
+
+            // Attach event listeners to Edit buttons
+            document.querySelectorAll(".edit-address").forEach(button => {
+                button.addEventListener("click", function () {
+                    let addressId = this.getAttribute("data-id");
+                    editAddress(addressId);
+                });
+            });
+
+            // Store selected address when changed
+            document.querySelectorAll(".select-address").forEach(radio => {
+                radio.addEventListener("change", function () {
+                    let selectedId = this.getAttribute("data-id");
+                    let selectedAddr = addresses.find(addr => addr.addressId == selectedId);
+                     if (selectedAddr) {
+                        localStorage.setItem("selectedAddress", JSON.stringify(selectedAddr));
+                        console.log(" Address saved:", selectedAddr);
+                    }
+                    displaySelectedAddress(selectedAddr);
+                    localStorage.setItem("selectedAddress", JSON.stringify(selectedAddr));
+                });
+            });
+
+            if (storedAddress) {
+                let selectedRadio = document.querySelector(`.select-address[data-id="${storedAddress.addressId}"]`);
+                if (selectedRadio) {
+                    selectedRadio.checked = true;
+                    displaySelectedAddress(storedAddress);
+                } else {
+                    console.warn(" Stored address not found in list, selecting first available.");
+                    selectFirstAvailableAddress(addresses);
+                }
+            }
+            else
+            {
+                console.warn(" No stored address found. Selecting first available.");
+                selectFirstAvailableAddress(addresses);
+            }
+
+            function selectFirstAvailableAddress(addresses) {
+                    if (addresses.length > 0) {
+                        let firstAddress = addresses[0]; // First address from API
+                        let firstRadio = document.querySelector(`.select-address[data-id="${firstAddress.addressId}"]`);
+
+                        if (firstRadio) {
+                            firstRadio.checked = true;
+                            localStorage.setItem("selectedAddress", JSON.stringify(firstAddress));
+                            displaySelectedAddress(firstAddress);
+                        }
+                    }
+                }
+
+            // Handle Show More / Show Less toggle
+            let toggleButton = document.getElementById("toggleAddresses");
+            if (toggleButton) {
+                toggleButton.addEventListener("click", function () {
+                    let hiddenAddresses = document.querySelectorAll(".extra-address");
+                    let isExpanded = hiddenAddresses.length > 0 && !hiddenAddresses[0].classList.contains("d-none");
+
+                    if (isExpanded) {
+                        hiddenAddresses.forEach(addr => addr.classList.add("d-none"));
+                        toggleButton.innerText = "Show More";
+                    } else {
+                        hiddenAddresses.forEach(addr => addr.classList.remove("d-none"));
+                        toggleButton.innerText = "Show Less";
+                    }
+                });
+            }
+
+        } catch (error) {
+                console.error("Error fetching addresses:", error);
+        }
+
+        let total = renderCheckout();
+        
+        try {
+                
+                let response = await fetch(`/Home/Coupan/${total}`); // Fetch coupons
+                let coupons = await response.json();
+                let couponContainer = document.getElementById("couponContainer");
+
+                // Get the applied coupon code from local storage
+                let appliedCoupon = localStorage.getItem("appliedCoupon");
+
+                couponContainer.innerHTML = coupons.map(coupon => `
+                    <div class="swiper-slide">
+                        <div class="box-discount">
+                            <div class="discount-top">
+                                <div class="discount-off">
+                                    <div class="text-caption-1">Discount</div>
+                                    <span class="sale-off text-btn-uppercase">${coupon.discount}% OFF</span>
+                                </div>
+                                <div class="discount-from">
+                                    <p class="text-caption-1">${coupon.coupanType}</p>
+                                </div>
+                            </div>
+                            <div class="discount-bot">
+                                <span class="text-btn-uppercase">${coupon.coupanCode}</span>
+                                <button class="tf-btn apply-coupon"
+                                    data-code="${coupon.coupanCode}"
+                                    data-discount="${coupon.discount}"
+                                    ${appliedCoupon === coupon.coupanCode ? 'disabled' : ''}>
+                                    <span class="text">${appliedCoupon === coupon.coupanCode ? 'Applied' : 'Apply Code'}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join("");
+
+                 // Attach event listeners AFTER inserting HTML
+                 document.querySelectorAll(".apply-coupon").forEach(button => {
+                     button.addEventListener("click", function () {
+                         let selectedCode = this.getAttribute("data-code");
+                         let discount = parseInt(this.getAttribute("data-discount"));
+
+                         applyCoupon(selectedCode, discount);
+                     });
+                 });
+
+                 // Initialize Swiper after content is added
+                         new Swiper("#couponSwiper", {
+                    slidesPerView: 3, // Show 3 slides at a time
+                    spaceBetween: 20, // Space between slides
+                    pagination: { el: ".swiper-pagination", clickable: true },
+                    grabCursor: true, // Enable grabbing cursor effect
+                    slidesPerGroup: 1, // Move 1 slide at a time for smooth experience
+                    loop: false, // Keep false to prevent looping issues
+                    allowTouchMove: true, // Allow manual swiping
+                    touchRatio: 1, // Controls swipe sensitivity
+                    simulateTouch: true, // Enables mouse dragging support
+                    navigation: { // Add navigation controls
+                        nextEl: ".swiper-button-next",
+                        prevEl: ".swiper-button-prev"
+                    },
+                    watchSlidesProgress: true, // Track slide progress
+                    watchSlidesVisibility: true, // Ensure visibility updates
+                });
+           }
+        catch (error) {
+         console.error("Error fetching coupons:", error);
+        }
+    });
+
+    document.getElementById("couponContainer").addEventListener("click", function (event) {
+        if (event.target.classList.contains("apply-coupon")) {
+            let selectedCode = event.target.getAttribute("data-code");
+            let discount = parseInt(event.target.getAttribute("data-discount"));
+
+            // Apply discount and update UI
+            applyDiscount(selectedCode, discount);
+
+            // Change button text & disable it
+            event.target.innerHTML = `<span class="text">Applied</span>`;
+            event.target.disabled = true;
+        }
+    });
+
+    //  Function to display selected address
+    function displaySelectedAddress(address) {
+        if (!address) return;
+        document.getElementById("fullName").innerText = address.fullName;
+        document.getElementById("address").innerText = `${address.address}, ${address.city}, ${address.state}, ${address.zipCode}, ${address.country}`;
+
+        document.body.classList.remove("modal-open");
+        document.querySelectorAll(".modal-backdrop").forEach(el => el.remove());
+    }
+
+    // Function to Edit Address
+    async function editAddress(addressId) {
+        let response = await fetch(`/Home/GetAddresses?shopId=1`);
+        let addresses = await response.json();
+        let selectedAddress = addresses.find(addr => addr.addressId == addressId);
+
+        if (selectedAddress) {
+            document.getElementById("modalTitle").innerText = "Edit Address";
+            document.getElementById("fullName").value = selectedAddress.fullName;
+            document.getElementById("mobile").value = selectedAddress.mobile;
+            document.getElementById("address").value = selectedAddress.address;
+            document.getElementById("city").value = selectedAddress.city;
+            document.getElementById("state").value = selectedAddress.state;
+            document.getElementById("zipCode").value = selectedAddress.zipCode;
+            document.getElementById("modalSubmitButton").innerText = "Update this address";
+
+            localStorage.setItem("editingAddress", JSON.stringify(selectedAddress));
+
+            let modal = new bootstrap.Modal(document.getElementById("addAddressModal"));
+            modal.show();
+        }
+    }
+
+    // Save or Update Address
+    document.getElementById("addressForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        let editingAddress = localStorage.getItem("editingAddress") ? JSON.parse(localStorage.getItem("editingAddress")) : null;
+        let addressId = editingAddress ? editingAddress.addressId : 0; // Use 0 for new address
+
+        let newAddress = {
+            addressId: addressId, // Include AddressId for updating existing
+            fullName: document.getElementById("fullName").value,
+            mobile: document.getElementById("mobile").value,
+            address: document.getElementById("address").value,
+            city: document.getElementById("city").value,
+            zipCode: document.getElementById("zipCode").value,
+            state: document.getElementById("state").value,
+            country: "India",
+            isActive: true // Assuming address is active by default
+        };
+
+        try {
+            let response = await fetch("/Home/SaveAddress", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newAddress)
+            });
+
+            let result = await response.json();
+
+            if (response.ok) {
+                //alert("Address saved successfully!");
+                showMessageModal("success", "Addess Saved Successfully!");
+
+                // Refresh Address List
+                location.reload();
+
+                // Close modal
+                let modalElement = document.getElementById("addAddressModal");
+                let modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+                modalInstance.hide();
+
+                document.body.classList.remove("modal-open");
+                document.querySelectorAll(".modal-backdrop").forEach(el => el.remove());
+
+                 document.getElementById("addressForm").reset();
+
+                localStorage.removeItem("editingAddress"); // Reset edit mode
+            } else {
+                //alert(result.message || "Failed to save address.");
+                showMessageModal("error", "Failed to save address.");
+            }
+        } catch (error) {
+            console.error("Error saving address:", error);
+            //alert("An error occurred while saving the address.");
+            showMessageModal("error", "An error occurred while saving the address.");
+        }
+    });
+
+    document.getElementById("addNewAddress").addEventListener("click", function () {
+        // Clear form fields
+        document.getElementById("addressForm").reset();
+
+        // Remove any stored editing data
+        localStorage.removeItem("editingAddress");
+
+        // Show the modal
+        let modalElement = document.getElementById("addAddressModal");
+        let modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+        document.getElementById("modalTitle").innerText = "Add an Address";
+        document.getElementById("modalSubmitButton").innerText = "Add this address";
+        modalInstance.show();
+
+    });
+
+    let isCouponApplied = localStorage.getItem("appliedCoupon") ? true : false;
+
+    //  Apply Coupon Function
+    async function applyCoupon(couponCode = null, discountPercentage = null) {
+        let promotionAppliedElement = document.getElementById("promotionApplied");
+        let orderTotalAmountElement = document.getElementById("orderTotalAmount");
+        let couponInputField = document.getElementById("CoupanCode");
+        let applyButton = document.querySelector(".ip-discount-code button");
+
+        if (isCouponApplied) {
+            showMessageModal("error", "Coupon already applied! Remove it before applying another.");
+            return;
+        }
+
+        if (!couponCode) {
+            couponCode = couponInputField.value.trim();
+            if (!couponCode) {
+                showMessageModal("error", "Please enter a coupon code.");
+                return;
+            }
+
+            try {
+                let response = await fetch(`/Admin/ValidateCoupan?coupanCode=${couponCode}`);
+                let data = await response.json();
+
+                if (!data.success) {
+                    showMessageModal("error", `Error: ${data.message}`);
+                    return;
+                }
+
+                discountPercentage = data.discount;
+            } catch (error) {
+                console.error("Error validating coupon:", error);
+                showMessageModal("error", "Something went wrong. Please try again.");
+                return;
+            }
+        }
+
+        let totalAmount = parseFloat(orderTotalAmountElement.innerText.replace("₹", ""));
+        let discountAmount = (totalAmount * discountPercentage) / 100;
+
+        promotionAppliedElement.innerText = `₹${discountAmount.toFixed(2)}`;
+        orderTotalAmountElement.innerText = `₹${(totalAmount - discountAmount).toFixed(2)}`;
+
+        showMessageModal("success", `Coupon ${couponCode} applied! You saved ₹${discountAmount.toFixed(2)}`);
+
+        isCouponApplied = true;
+        localStorage.setItem("appliedCoupon", couponCode);
+        localStorage.setItem("discountAmount", discountAmount);
+
+        couponInputField.value = couponCode;
+        couponInputField.disabled = true;
+
+        applyButton.innerHTML = `<span class="text">Remove</span>`;
+        applyButton.classList.add("remove-coupon");
+        applyButton.setAttribute("onclick", "removeCoupon()");
+
+        updateCouponButtons(couponCode);
+    }
+
+    //  Remove Coupon Function
+    function removeCoupon() {
+        let promotionAppliedElement = document.getElementById("promotionApplied");
+        let orderTotalAmountElement = document.getElementById("orderTotalAmount");
+        let couponInputField = document.getElementById("CoupanCode");
+        let applyButton = document.querySelector(".ip-discount-code button");
+
+        let discountAmount = parseFloat(localStorage.getItem("discountAmount")) || 0;
+        let totalAmount = parseFloat(orderTotalAmountElement.innerText.replace("₹", "")) + discountAmount;
+
+        promotionAppliedElement.innerText = "₹0.00";
+        orderTotalAmountElement.innerText = `₹${totalAmount.toFixed(2)}`;
+
+        isCouponApplied = false;
+        localStorage.removeItem("appliedCoupon");
+        localStorage.removeItem("discountAmount");
+
+        couponInputField.value = "";
+        couponInputField.disabled = false;
+
+        applyButton.innerHTML = `<span class="text">Apply Code</span>`;
+        applyButton.classList.remove("remove-coupon");
+        applyButton.setAttribute("onclick", "applyCoupon()");
+
+        updateCouponButtons(null);
+    }
+
+    //  Update Coupon Buttons
+    function updateCouponButtons(appliedCoupon) {
+        document.querySelectorAll(".apply-coupon").forEach(button => {
+            let couponCode = button.getAttribute("data-code");
+
+            if (couponCode === appliedCoupon) {
+                button.innerHTML = `<span class="text">Applied</span>`;
+                button.disabled = true;
+            } else {
+                button.disabled = false;
+                button.innerHTML = `<span class="text">Apply Code</span>`;
+            }
+        });
+    }
+
+     //  Function to fetch `IShopId` from cookies
+    function getCookie(name) {
+        let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        return match ? decodeURIComponent(match[2]) : null;
+    }
+
+    async function processCheckout() {
+            let IShopId = getCookie('IShopId');
+        if (!IShopId) {
+            console.warn(" User not logged in. Redirecting to login.");
+            return;
+        }
+
+        console.log(" User logged in. Syncing guest cart to database...");
+        await syncGuestCartToDatabase();
+
+        console.log(" Loading updated cart from database...");
+        await loadCartFromDatabase();
+
+        console.log(" Rendering checkout page...");
+        renderCheckout(); // Display updated checkout UI
+    }
+
+            // Normalize cart item function
+    function normalizeCartItem(item) {
+        return {
+            shoppingCartId: parseInt(item.shoppingCartId) || 0,
+            iShopId: parseInt(item.iShopId) || 0,
+            arrivingDays: parseInt(item.arrivingDays) || 0,
+            color: item.color ?? "",
+            description: item.description ?? "",
+            image: item.image ?? "",
+            name: item.name ?? "",
+            price: parseFloat(item.price) || 0,
+            productId: parseInt(item.productId) || 0,
+            productsImageId: parseInt(item.productsImageId || item.productImageId) || 0,
+            quantity: parseInt(item.quantity) || 1,
+            total: parseFloat(item.total) || 0,
+            type: item.type ?? ""
+        };
+    }
+
+    // Get the server cart from the database
+    async function getServerCart() {
+        const response = await fetch('/Home/GetCart');
+        if (!response.ok) return [];
+        const data = await response.json();
+        return (data.cartItems || []).map(normalizeCartItem);
+    }
+
+    // Sync guest cart to the server (after login)
+        async function syncGuestCartToDatabase() {
+        try {
+            const IShopId = getCookie('IShopId'); // Get login session
+            let localCart = JSON.parse(localStorage.getItem("cartItems")) || [];
+            localCart = localCart.map(normalizeCartItem); // Normalize local cart items
+
+            if (localCart.length === 0) {
+                console.warn("No items in local cart to sync.");
+                return;
+            }
+
+            // Check if cart has already been synced to avoid duplicate merges
+            if (localStorage.getItem("cartSynced") === "true") {
+                console.log("Guest cart already synced. Skipping merge.");
+                return;
+            }
+
+            // If the user is not logged in, save cart to cookies and exit
+            if (!IShopId) {
+                document.cookie = `cartItems=${JSON.stringify(localCart)}; path=/; expires=${new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toUTCString()}`;
+                return;
+            }
+
+            console.log("User logged in — merging guest cart into DB.");
+
+            // Get current cart from server
+            const serverCart = await getServerCart();
+            const mergedCart = [];
+
+            // Merge local and server cart items
+            for (let localItem of localCart) {
+                const match = serverCart.find(serverItem =>
+                    serverItem.productsImageId === localItem.productsImageId
+                );
+
+                if (match) {
+                    const updatedQuantity = localItem.quantity + match.quantity;
+                    mergedCart.push({
+                        ...localItem,
+                        quantity: updatedQuantity,
+                        total: updatedQuantity * localItem.price,
+                        shoppingCartId: match.shoppingCartId,
+                    });
+                } else {
+                    mergedCart.push(localItem);
+                }
+            }
+
+            // Add remaining items from server cart
+            for (let serverItem of serverCart) {
+                if (!mergedCart.some(item => item.productsImageId === serverItem.productsImageId)) {
+                    mergedCart.push(serverItem);
+                }
+            }
+
+            console.log("Merged cart:", mergedCart);
+
+            // Save merged cart to server
+            const response = await fetch("/Home/SaveCart", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(mergedCart),
+            });
+
+            if (!response.ok) {
+                console.error("Failed to sync cart. Server Response:", await response.text());
+                return;
+            }
+
+            console.log("Guest cart successfully synced to database.");
+
+            //  CLEANUP LOCAL STORAGE
+            localStorage.removeItem("cartItems"); // Remove local guest cart
+            localStorage.setItem("cartSynced", "true"); // Mark as synced to prevent duplicate merging
+
+            //  Refresh cart UI if needed
+            updateCartTotal?.();  // Optional: update total price
+            updateCartCount?.();  // Optional: update cart count badge
+            loadCartFromDatabase?.(); // Optional: fetch fresh server-side cart
+
+        } catch (error) {
+            console.error("Error syncing guest cart:", error);
+        }
+    }
+
+
+
+    async function loadCartFromDatabase() {
+        let orderPlaced = localStorage.getItem("orderPlaced");
+
+        if (orderPlaced === "true") {
+            console.log("Order has already been placed. No need to load cart.");
+            // Optionally, you can clear cart data here or just skip loading the cart
+            return;
+        }
+
+        try {
+            let response = await fetch("/Home/GetCart");
+            let data = await response.json();
+
+            console.log(" API Response:", data);
+
+            if (data.success && data.cartItems.length > 0) {
+                let cartItems = data.cartItems;
+                localStorage.setItem("cartItems", JSON.stringify(cartItems)); // Update localStorage
+                localStorage.setItem("checkoutItems", JSON.stringify(cartItems)); // Set checkout data after update
+                console.log(" Cart loaded and saved to localStorage:", cartItems);
+            } else {
+                console.warn(" No items in the cart.");
+            }
+        } catch (error) {
+            console.error(" Error loading cart from database:", error);
+        }
+    }
+
+    function renderCheckout() {
+        let checkoutItems = JSON.parse(localStorage.getItem("checkoutItems")) || [];
+        let checkoutContainer = document.querySelector(".list-product"); // Shopping Cart Section
+        let totalCheckoutAmount = document.querySelector(".total"); // Total price in Order Summary
+        let deliveryChargeElement = document.getElementById("deliveryCharge");
+        let finalAmountElement = document.getElementById("finalAmount");
+        let promotionAppliedElement = document.getElementById("promotionApplied");
+        let orderTotalAmountElement = document.getElementById("orderTotalAmount");
+
+        let total = 0;
+        let deliveryCharge = 40;
+        let freeDeliveryThreshold = 1500;
+
+        let promotionDiscountText = promotionAppliedElement.innerText.trim();
+        promotionDiscountText = promotionDiscountText.replace(/[₹-]/g, ""); // Remove ₹ and -
+        let promotionDiscount = parseFloat(promotionDiscountText) || 0;
+
+        // Clear cart display before re-rendering
+        checkoutContainer.innerHTML = "";
+
+        if (checkoutItems.length === 0) {
+            checkoutContainer.innerHTML = `<p class="text-center">No items in your cart.</p>`;
+            totalCheckoutAmount.innerText = `₹0.00`;
+            deliveryChargeElement.innerText = `₹0.00`;
+            finalAmountElement.innerText = `₹0.00`;
+            orderTotalAmountElement.innerText = `₹0.00`;
+            return;
+        }
+
+        // Loop through items and render them inside the shopping cart
+        checkoutItems.forEach((item, index) => {
+            let itemHtml = `
+                <div class="item-product" data-index="${index}">
+                    <a href="product-detail.html" class="img-product">
+                        <img src="${item.image}" alt="${item.name}">
+                    </a>
+                    <div class="content-box">
+                        <div class="info">
+                            <a href="product-detail.html" class="name-product link text-title">${item.name}</a>
+                            <div class="variant text-caption-1 text-secondary">
+                                <span class="size">${item.type}</span> / <span class="color">${item.color}</span>
+                            </div>
+                        </div>
+                        <div class="total-price text-button">
+    @*<button class="btn btn-sm btn-outline-secondary decrease-qty" data-index="${index}">-</button>*@
+                            <span class="count item-qty" id="qty-${index}">${item.quantity}</span>
+    @*<button class="btn btn-sm btn-outline-secondary increase-qty" data-index="${index}">+</button>*@
+                            X <span class="price">₹${item.price.toFixed(2)}</span> |
+                            <strong>Total: <span class="item-total">₹${item.total.toFixed(2)}</span></strong>
+                        </div>
+                    </div>
+                </div>
+            `;
+            checkoutContainer.innerHTML += itemHtml;
+        });
+
+        // Calculate total cart amount
+        total = checkoutItems.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+
+        // Apply delivery charge logic
+        if (total >= freeDeliveryThreshold) {
+            deliveryChargeElement.innerHTML = `<span class="text-decoration-line-through text-danger">₹40.00</span> Free`;
+            deliveryCharge = 0;
+        } else {
+            deliveryChargeElement.innerText = `₹40.00`;
+        }
+
+        // Calculate Final Amount
+        let finalAmount = total + deliveryCharge;
+        let orderTotal = finalAmount - promotionDiscount;
+
+        // Update order summary section
+        totalCheckoutAmount.innerText = `₹${total.toFixed(2)}`;
+        finalAmountElement.innerText = `₹${finalAmount.toFixed(2)}`;
+        orderTotalAmountElement.innerText = `₹${orderTotal.toFixed(2)}`;
+
+        // Attach event listeners for quantity buttons
+        document.querySelectorAll(".increase-qty").forEach(button => {
+            button.addEventListener("click", function () {
+                let index = this.getAttribute("data-index");
+                updateQuantity(index, "increase");
+            });
+        });
+
+        document.querySelectorAll(".decrease-qty").forEach(button => {
+            button.addEventListener("click", function () {
+                let index = this.getAttribute("data-index");
+                updateQuantity(index, "decrease");
+            });
+        });
+        
+        return total;
+    }
+
+    document.addEventListener("DOMContentLoaded", async function () {
+
+        await processCheckout();
+        let storedCoupon = localStorage.getItem("appliedCoupon");
+        let discountAmount = localStorage.getItem("discountAmount");
+
+        if (storedCoupon) {
+            let couponInputField = document.getElementById("CoupanCode");
+            let applyButton = document.querySelector(".ip-discount-code button");
+            let orderTotalAmountElement = document.getElementById("orderTotalAmount");
+            let promotionAppliedElement = document.getElementById("promotionApplied");
+
+            couponInputField.value = storedCoupon;
+            couponInputField.disabled = true;
+
+            let totalAmount = parseFloat(orderTotalAmountElement.innerText.replace("₹", ""));
+            orderTotalAmountElement.innerText = `₹${(totalAmount - discountAmount).toFixed(2)}`;
+            promotionAppliedElement.innerText = `₹${discountAmount}`;
+
+            applyButton.innerHTML = `<span class="text">Remove</span>`;
+            applyButton.classList.add("remove-coupon");
+            applyButton.setAttribute("onclick", "removeCoupon()");
+
+            updateCouponButtons(storedCoupon);
+        }
+    });
+
+    let selectedPaymentMode = document.querySelector('input[name="payment-mode"]:checked').value; // Set default selected value
+
+    // Update selectedPaymentMode on radio button change
+    document.querySelectorAll('input[name="payment-mode"]').forEach((radio) => {
+        radio.addEventListener("change", function () {
+            selectedPaymentMode = this.value;
+            console.log("Selected Payment Mode:", selectedPaymentMode); // Debugging
+        });
+    });
+
+    document.getElementById("placeOrderBtn").addEventListener("click", async function () {
+        let checkoutItems = JSON.parse(localStorage.getItem("checkoutItems")) || [];
+
+        if (checkoutItems.length === 0) {
+            //alert("No items in the cart to place an order!");
+            showMessageModal("error", "No items in the cart to place an order!");
+            return;
+        }
+
+        let selectedAddress = JSON.parse(localStorage.getItem("selectedAddress")) || {};
+        let AddressId = selectedAddress.addressId || 0; //  Extract only the ID
+
+        let OrderId = crypto.randomUUID(); // Generate a random Order ID
+        //let PaymentMode = "COD"; // Assume default payment method
+
+        // Fetch checkout values from DOM
+        let TotalAmount = parseFloat(document.getElementById("totalCheckoutAmount")?.innerText.replace("₹", "")) || 0;
+        let DeliveryCharge = parseFloat(document.getElementById("deliveryCharge")?.innerText.replace("₹", "")) || 0;
+        let FinalAmount = parseFloat(document.getElementById("finalAmount")?.innerText.replace("₹", "")) || 0;
+        let PromoAmount = parseFloat(document.getElementById("promotionApplied")?.innerText.replace("₹", "")) || 0;
+        let OrderAmount = parseFloat(document.getElementById("orderTotalAmount")?.innerText.replace("₹", "")) || 0;
+        let Tax = 0; // Assume tax calculation if applicable
+
+        let orders = checkoutItems.map(item => ({
+            OrderId: OrderId,
+            ProductId: item.productId,
+            ProductsImageId: item.productsImageId, // Assuming `imageId` exists in `checkoutItems`
+            OrderQty: item.quantity,
+            TotalAmount: item.total
+        }));
+
+        let checkout = {
+            OrderId: OrderId,
+            AddressId: AddressId,
+            PaymentMode: selectedPaymentMode,
+            TotalAmount: TotalAmount,
+            Tax: Tax,
+            DelivaryCharge: DeliveryCharge,
+            FinalAmount: FinalAmount,
+            PromoAmount: PromoAmount,
+            OrderAmount: OrderAmount
+        };
+
+        console.log("Checkout Data Sent:", checkout); //  Debugging
+
+        try {
+            // Step 1: Save Order Details
+            let orderResponse = await fetch("/Home/SaveOrder", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(orders)
+            });
+
+            let orderResult = await orderResponse.json();
+            if (!orderResponse.ok) {
+                // alert(orderResult.message || "Failed to place order.");
+                showMessageModal("error", `Error: ${orderResult.message} || "Failed to place order."`);
+                    return;
+            }
+
+            // Step 2: Save Checkout Details
+            let checkoutResponse = await fetch("/Home/SaveCheckout", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(checkout)
+            });
+
+            let checkoutResult = await checkoutResponse.json();
+            if (checkoutResponse.ok) {
+                 showOrderSuccessModal();
+                localStorage.removeItem("checkoutItems");
+                localStorage.removeItem("cartItems");
+                localStorage.removeItem("appliedCoupon");
+                localStorage.removeItem("discountAmount");
+                localStorage.removeItem("selectedAddress");
+                deleteCookie("cartItems");
+                await deleteCartItem();
+
+                localStorage.setItem("orderPlaced", "true");
+
+                const orderId = checkoutResult.orderId;
+
+                if (orderId) {
+                    window.location.href = `/Payment/Payment?orderId=${orderId}`;
+                } else {
+                    showMessageModal("error", "Order placed but missing order ID.");
+                }
+            } else {
+                //alert(checkoutResult.message || "Failed to save checkout details.");
+                showMessageModal("error", `Error: ${checkoutResult.message} || "Failed to save checkout details."`);
+            }
+        } catch (error) {
+            console.error("Error placing order:", error);
+            //alert("An error occurred while placing the order.");
+            showMessageModal("error", "An error occurred while placing the order.");
+        }
+    });
+
+    function deleteCookie(name) {
+       document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+
+    async function deleteCartItem(productId, productsImageId) {
+         try
+         {
+                let response = await fetch("/Home/DeleteCartItem", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ProductId: productId, ProductsImageId: productsImageId }),
+                });
+
+                let result = await response.json();
+
+                if (result.success) {
+                    console.log("Item deleted successfully from the cart.");
+                    updateCartCount();
+                } else {
+                    console.log("Failed to delete item from the cart.", result.message);
+                }
+         }
+         catch (error) {
+                console.error("Error deleting item from cart:", error);
+         }
+     }
+
+    function showOrderSuccessModal() {
+            let orderSuccessModal = new bootstrap.Modal(document.getElementById("orderSuccessModal"));
+            orderSuccessModal.show();
+     }
+
+    function showMessageModal(type, message) {
+         let modalTitle = document.getElementById("messageModalLabel");
+         let modalBody = document.getElementById("messageText");
+         let modalHeader = document.querySelector("#messageModal .modal-header");
+
+         // Update the modal based on type (success or error)
+         if (type === "success") {
+             modalTitle.innerText = "Success";
+             modalBody.innerHTML = ` ${message}`;
+             modalHeader.classList.add("bg-success", "text-white");
+             modalHeader.classList.remove("bg-danger");
+         } else if (type === "error") {
+             modalTitle.innerText = "Error";
+             modalBody.innerHTML = ` ${message}`;
+             modalHeader.classList.add("bg-danger", "text-white");
+             modalHeader.classList.remove("bg-success");
+         }
+
+         // Show the modal
+         let messageModal = new bootstrap.Modal(document.getElementById("messageModal"));
+         messageModal.show();
+    }
+
+    window.onload = function () {
+        // Check if the order was placed
+        let orderPlaced = localStorage.getItem("orderPlaced");
+
+        if (orderPlaced === "true") {
+            console.log("Order has already been placed.");
+            // Optionally, you can hide cart UI elements or show a message that the order was placed successfully
+            document.getElementById("cartContainer").style.display = "none"; // Hide cart container
+            showMessageModal("success", "Your order has been placed successfully.");
+
+            // Optionally clear cart data to prevent showing it after an order
+            localStorage.removeItem("cartItems");
+            localStorage.removeItem("checkoutItems");
+        } else {
+            // Load and display cart items if the order was not placed
+            loadCartFromDatabase(); // This will run only if the order hasn't been placed
+        }
+    };
+
+</script>

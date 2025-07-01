@@ -1,0 +1,641 @@
+﻿@model List<Products>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Home";
+}
+<input type="hidden" id="hdnProductImageId" />
+<!-- Slider -->
+<div class="tf-slideshow slider-style2 slider-effect-fade">
+    <div dir="ltr" class="swiper tf-sw-slideshow" data-preview="1" data-tablet="1" data-mobile="1" data-centered="false" data-space="0" data-space-mb="0" data-loop="true" data-auto-play="false">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="wrap-slider">
+                    <img src="~/content/images/slider/slider-fashion-cosmetic.jpg" alt="fashion-slideshow">
+                    <div class="box-content">
+                        <div class="container">
+                            <div class="content-slider">
+                                <div class="box-title-slider">
+                                    <div class="fade-item fade-item-1 heading title-display text-white">Awaken Your <br> Natural Beauty</div>
+                                    <p class="fade-item fade-item-2 body-text-1 text-white">Discover the secret to rejuvenating your skin, one gentle touch at a <br> time with our special collection of cosmetics.</p>
+                                </div>
+                                <div class="fade-item fade-item-3 box-btn-slider">
+                                    <a href="@Url.Action("Products", "Home")" class="tf-btn btn-fill btn-square btn-white"><span class="text">Shop Now</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="wrap-slider">
+                    <img src="~/content/images/slider/slider-fashion-cosmetic2.jpg" alt="fashion-slideshow">
+                    <div class="box-content">
+                        <div class="container">
+                            <div class="content-slider">
+                                <div class="box-title-slider">
+                                    <div class="fade-item fade-item-1 heading title-display text-white">Embrace Your <br> Radiance, Naturally</div>
+                                    <p class="fade-item fade-item-2 body-text-1 text-white">Dive into our collection and uncover the power of your true skin!</p>
+                                </div>
+                                <div class="fade-item fade-item-3 box-btn-slider">
+                                    <a href="@Url.Action("Products", "Home")" class="tf-btn btn-fill btn-square btn-white"><span class="text">Shop Now</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="wrap-slider">
+                    <img src="~/content/images/slider/slider-fashion-cosmetic3.jpg" alt="fashion-slideshow">
+                    <div class="box-content">
+                        <div class="container">
+                            <div class="content-slider">
+                                <div class="box-title-slider">
+                                    <div class="fade-item fade-item-1 heading title-display text-white">Illuminate Your <br> Beauty, Naturally</div>
+                                    <p class="fade-item fade-item-2 body-text-1 text-white">Let us guide you through a journey of skin transformation, from <br> confidence to radiance.</p>
+                                </div>
+                                <div class="fade-item fade-item-3 box-btn-slider">
+                                    <a href="@Url.Action("Products", "Home")" class="tf-btn btn-fill btn-square btn-white"><span class="text">Shop Now</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrap-pagination">
+        <div class="container">
+            <div class="sw-dots sw-pagination-slider type-circle white-circle-line justify-content-center"></div>
+        </div>
+    </div>
+</div>
+<!-- /Slider -->
+<!-- Marquee -->
+<section class="tf-marquee">
+    <div class="marquee-wrapper">
+        <div class="initial-child-container">
+            <div class="marquee-child-item">
+                <p class="text-btn-uppercase">Free shipping on all orders over ₹1500</p>
+            </div>
+            <div class="marquee-child-item">
+                <span class="icon icon-lightning-line"></span>
+            </div>
+            <div class="marquee-child-item">
+                <p class="text-btn-uppercase">Returns are free within 14 days</p>
+            </div>
+            <div class="marquee-child-item">
+                <span class="icon icon-lightning-line"></span>
+            </div>
+            <!-- 2 -->
+            <div class="marquee-child-item">
+                <p class="text-btn-uppercase">Free shipping on all orders over ₹1500</p>
+            </div>
+            <div class="marquee-child-item">
+                <span class="icon icon-lightning-line"></span>
+            </div>
+            <div class="marquee-child-item">
+                <p class="text-btn-uppercase">Returns are free within 14 days</p>
+            </div>
+            <div class="marquee-child-item">
+                <span class="icon icon-lightning-line"></span>
+            </div>
+            <!-- 3 -->
+            <div class="marquee-child-item">
+                <p class="text-btn-uppercase">Free shipping on all orders over ₹1500</p>
+            </div>
+            <div class="marquee-child-item">
+                <span class="icon icon-lightning-line"></span>
+            </div>
+            <div class="marquee-child-item">
+                <p class="text-btn-uppercase">Returns are free within 14 days</p>
+            </div>
+            <div class="marquee-child-item">
+                <span class="icon icon-lightning-line"></span>
+            </div>
+            <!-- 4 -->
+            <div class="marquee-child-item">
+                <p class="text-btn-uppercase">Free shipping on all orders over ₹1500</p>
+            </div>
+            <div class="marquee-child-item">
+                <span class="icon icon-lightning-line"></span>
+            </div>
+            <div class="marquee-child-item">
+                <p class="text-btn-uppercase">Returns are free within 14 days</p>
+            </div>
+            <div class="marquee-child-item">
+                <span class="icon icon-lightning-line"></span>
+            </div>
+            <!-- 5 -->
+            <div class="marquee-child-item">
+                <p class="text-btn-uppercase">Free shipping on all orders over ₹1500</p>
+            </div>
+            <div class="marquee-child-item">
+                <span class="icon icon-lightning-line"></span>
+            </div>
+            <div class="marquee-child-item">
+                <p class="text-btn-uppercase">Returns are free within 14 days</p>
+            </div>
+            <div class="marquee-child-item">
+                <span class="icon icon-lightning-line"></span>
+            </div>
+            <!-- 6 -->
+            <div class="marquee-child-item">
+                <p class="text-btn-uppercase">Free shipping on all orders over ₹1500</p>
+            </div>
+            <div class="marquee-child-item">
+                <span class="icon icon-lightning-line"></span>
+            </div>
+            <div class="marquee-child-item">
+                <p class="text-btn-uppercase">Returns are free within 14 days</p>
+            </div>
+            <div class="marquee-child-item">
+                <span class="icon icon-lightning-line"></span>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /Marquee -->
+<!-- Top picks -->
+<section class="flat-spacing">
+    <div class="container">
+        <div class="heading-section text-center wow fadeInUp">
+            <h3 class="heading">Top Picks</h3>
+            <p class="subheading text-secondary">Fresh styles just in! Elevate your look.</p>
+        </div>
+        <div dir="ltr" class="swiper tf-sw-latest" data-preview="4" data-tablet="3" data-mobile="2" data-space-lg="30" data-space-md="30" data-space="15" data-pagination="1" data-pagination-md="1" data-pagination-lg="1">
+            <div class="swiper-wrapper">
+                @foreach (var product in Model)
+                {
+                    var productImage = product.ProductImages.FirstOrDefault();
+                    if (productImage != null)
+                    {
+                        <div class="swiper-slide">
+                            <div class="card-product wow fadeInUp" data-wow-delay="0.1s">
+                                <div class="card-product-wrapper">
+                                    @*  <a asp-action="ProductDetails" asp-route-slug="@product.Slug" asp-route-typeslug="@productImage.TypeSlug"
+                                       asp-route-colorslug="@productImage.ColorSlug" class="product-img">
+                                        <img class="lazyload img-product" data-src="@productImage.MediumImage" src="@productImage.MediumImage" alt="image-product">
+                                        <img class="lazyload img-hover" data-src="@productImage.MediumImage" src="@productImage.MediumImage" alt="image-product">
+                                    </a> *@
+                                    <a id="product-link-@product.ProductId"
+                                       class="product-img"
+                                       asp-action="ProductDetails"
+                                       asp-controller="Home"
+                                       asp-route-slug="@product.Slug"
+                                       asp-route-typeslug="@product.ProductImages.FirstOrDefault()?.TypeSlug"
+                                       asp-route-colorslug="@product.ProductImages.FirstOrDefault()?.ColorSlug"
+                                       data-slug="@product.Slug">
+
+                                        <img id="main-img-@product.ProductId"
+                                             class="lazyload img-product"
+                                             data-src="@product.ProductImages.FirstOrDefault()?.MediumImage"
+                                             src="@product.ProductImages.FirstOrDefault()?.MediumImage"
+                                             alt="image-product">
+
+                                        <img id="hover-img-@product.ProductId"
+                                             class="lazyload img-hover"
+                                             data-src="@product.ProductImages.FirstOrDefault()?.MediumImage"
+                                             src="@product.ProductImages.FirstOrDefault()?.MediumImage"
+                                             alt="image-product">
+                                    </a>
+                                    @if (productImage.Discount > 0)
+                                    {
+                                        <div class="on-sale-wrap"><span class="on-sale-item">-@productImage.Discount%</span></div>
+                                    }
+                                    @* <div class="list-product-btn">
+                                    <a href="#quickView" data-bs-toggle="modal" class="box-icon quickview tf-btn-loading">
+                                        <span class="icon icon-eye"></span>
+                                        <span class="tooltip">Quick View</span>
+                                    </a>
+                                </div> *@
+                                    <div class="list-btn-main">
+                                        <a href="#" data-bs-toggle="modal"
+                                           id="add-to-cart-btn-@product.ProductId"
+                                           class="btn-main-product add-to-cart-btn"
+                                           data-name="@Html.Raw(product.Name)"
+                                           data-image="@Html.Raw(productImage?.MediumImage)"
+                                           data-type="@Html.Raw(productImage.Type)"
+                                           data-color="@Html.Raw(productImage.Color)"
+                                           data-description="@Html.Raw(productImage.Description)"
+                                           data-price="@Json.Serialize(productImage?.Price)"
+                                           data-productid="@Json.Serialize(product?.ProductId)"
+                                           data-productsimageid="@Json.Serialize(productImage?.ProductsImageId)"
+                                           data-arrivingdays="@productImage.ArrivingDays ?? 0">
+                                            Add To cart
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="card-product-info">
+                                    @*   <a asp-action="ProductDetails" asp-route-slug="@product.Slug" asp-route-typeslug="@productImage.TypeSlug"
+                                       asp-route-colorslug="@productImage.ColorSlug" class="title link">
+                                        @product.Name
+                                    </a> *@
+
+                                    <a id="product-text-link-@product.ProductId"
+                                       class="title link"
+                                       asp-action="ProductDetails"
+                                       asp-controller="Home"
+                                       asp-route-slug="@product.Slug"
+                                       asp-route-typeslug="@productImage.TypeSlug"
+                                       asp-route-colorslug="@productImage.ColorSlug"
+                                       data-slug="@product.Slug">
+                                        @product.Name
+                                    </a>
+
+                                    @if (productImage.Discount > 0)
+                                    {
+                                        <span class="price"><span class="old-price">₹@productImage.MRP</span> ₹@productImage.Price</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="price">₹@productImage.Price</span>
+                                    }
+                                    @*   <ul class="list-color-product">
+                                        @foreach (var item in product.ProductImages)
+                                        {
+                                            <li class="list-color-item color-swatch active line">
+                                                <span class="swatch-value" style="background-color: @item.Color;"></span>
+                                                <img class="lazyload" data-src="@item.MediumImage" src="@item.MediumImage" alt="image-product">
+                                            </li>
+                                        }
+                                    </ul> *@
+                                    <ul class="list-color-product" data-product="@product.ProductId">
+                                        @foreach (var item in product.ProductImages)
+                                        {
+                                            var hexColor = ColorHelper.GetHexColor(item.Color);
+                                            <li class="color-swatch list-color-item @(item == product.ProductImages.First() ? "active" : "")"
+                                                data-image="@item.MediumImage"
+                                                data-colorslug="@item.ColorSlug"
+                                                data-typeslug="@item.TypeSlug"
+                                                data-product="@product.ProductId"
+                                                data-color="@item.Color"
+                                                data-type="@item.Type"
+                                                data-description="@item.Description"
+                                                data-price="@item.Price"
+                                                data-productsimageid="@item.ProductsImageId"
+                                                data-arrivingdays="@item.ArrivingDays">
+                                                <span class="swatch-value" style="background-color: @hexColor" title="@item.Color"></span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="sw-pagination-latest sw-dots type-circle justify-content-center"></div>
+        </div>
+    </div>
+</section>
+<!-- /Top picks -->
+<!-- Iconbox -->
+<section class="flat-spacing line-top-container">
+    <div class="container">
+        <div dir="ltr" class="swiper tf-sw-iconbox" data-preview="4" data-tablet="3" data-mobile-sm="2" data-mobile="1" data-space-lg="30" data-space-md="30" data-space="15" data-pagination="1" data-pagination-sm="2" data-pagination-md="3" data-pagination-lg="4">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="tf-icon-box">
+                        <div class="icon-box"><span class="icon icon-return"></span></div>
+                        <div class="content text-center">
+                            <h6>14-Day Returns</h6>
+                            <p class="text-secondary">Risk-free shopping with easy returns.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="tf-icon-box">
+                        <div class="icon-box"><span class="icon icon-shipping"></span></div>
+                        <div class="content text-center">
+                            <h6>Free Shipping Over ₹1500</h6>
+                            <p class="text-secondary">No extra costs, just the price you see.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="tf-icon-box">
+                        <div class="icon-box"><span class="icon icon-headset"></span></div>
+                        <div class="content text-center">
+                            <h6>24/7 Support</h6>
+                            <p class="text-secondary">24/7 support, always here just for you</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="tf-icon-box">
+                        <div class="icon-box"><span class="icon icon-sealCheck"></span></div>
+                        <div class="content text-center">
+                            <h6>Member Discounts</h6>
+                            <p class="text-secondary">Special prices for our loyal customers.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sw-pagination-iconbox sw-dots type-circle justify-content-center"></div>
+        </div>
+    </div>
+</section>
+<!-- /Iconbox -->
+<!-- Common Modal for Success & Error Messages -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <h5 id="messageText">Your message here.</h5>
+            </div>
+            <br />
+            <hr />
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-5">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+                </div>
+                <div class="col-md-5">
+                    <a asp-controller="Home" asp-action="Cart" class="btn btn-secondary">Go To Cart</a>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+
+@* <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+       loadCartFromDatabase();
+       updateCartCount();
+
+       document.querySelectorAll('.list-color-product .color-swatch').forEach(swatch => {
+          swatch.addEventListener('mouseenter', function () {
+              const newImage = this.getAttribute('data-image');
+              const productId = this.getAttribute('data-product');
+              const colorSlug = this.getAttribute('data-colorslug');
+              const typeSlug = this.getAttribute('data-typeslug');
+              const slug = document.getElementById('product-link-' + productId)?.getAttribute('data-slug');
+              const productTextLink = document.getElementById('product-text-link-' + productId);
+
+
+              const mainImg = document.getElementById('main-img-' + productId);
+              const hoverImg = document.getElementById('hover-img-' + productId);
+              const productLink = document.getElementById('product-link-' + productId);
+              const addToCartBtn = document.getElementById('add-to-cart-btn-' + productId);
+
+              if (mainImg && hoverImg) {
+                  mainImg.src = newImage;
+                  hoverImg.src = newImage;
+              }
+
+              if (productLink) {
+                  const slug = productLink.getAttribute('data-slug');
+                  const newUrl = `/Home/ProductDetails/${slug}/${typeSlug}/${colorSlug}`;
+                  productLink.setAttribute('href', newUrl);
+              }
+
+              if (productTextLink && slug && typeSlug && colorSlug) {
+                const newUrl = `/home/productdetails/${(slug)}/${typeSlug}/${colorSlug}`;
+                productTextLink.setAttribute('href', newUrl);
+              }
+
+              // Remove active class
+              swatch.parentElement.querySelectorAll('.color-swatch').forEach(el => el.classList.remove('active'));
+              swatch.classList.add('active');
+
+              //  UPDATE BUTTON DATA (important part)
+              if (addToCartBtn) {
+                  addToCartBtn.setAttribute('data-image', swatch.getAttribute('data-image'));
+                  addToCartBtn.setAttribute('data-color', swatch.getAttribute('data-color'));
+                  addToCartBtn.setAttribute('data-type', swatch.getAttribute('data-type'));
+                  addToCartBtn.setAttribute('data-description', swatch.getAttribute('data-description'));
+                  addToCartBtn.setAttribute('data-price', swatch.getAttribute('data-price'));
+                  addToCartBtn.setAttribute('data-productsimageid', swatch.getAttribute('data-productsimageid'));
+                  addToCartBtn.setAttribute('data-arrivingdays', swatch.getAttribute('data-arrivingdays'));
+              }
+          });
+       });
+
+       function updateCartCount() {
+           let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+           let totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+           let cartItemCount = document.getElementById("cartItemCount");
+           if (cartItemCount) {
+               cartItemCount.innerText = totalItems;
+           } else {
+               console.error("cartItemCount element not found in DOM!");
+           }
+
+           console.log(`Cart updated: ${totalItems} items`);
+       }
+
+       async function saveCartToDatabase(cartItems) {
+           let userId = getCookie("IShopId");
+
+           if (!userId) {
+               console.log("User is not logged in. Cart stored in localStorage & cookies.");
+               return;
+           }
+
+           let response = await fetch("/Home/SaveCart", {
+               method: "POST",
+               headers: { "Content-Type": "application/json" },
+               body: JSON.stringify(cartItems),
+           });
+
+           if (response.ok) {
+               console.log("Cart saved to database.");
+               loadCartFromDatabase();
+           } else {
+               console.log("Failed to save cart.");
+           }
+       }
+
+       document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+           button.addEventListener("click", function () {
+               let productName = this.getAttribute("data-name");
+               let productImage = this.getAttribute("data-image");
+               let productType = this.getAttribute("data-type");
+               let productColor = this.getAttribute("data-color");
+               let productDescription = this.getAttribute("data-description");
+               let price = parseFloat(this.getAttribute("data-price")) || 0;
+               let productId = parseFloat(this.getAttribute("data-productid")) || 0;
+               let productsImageId = parseFloat(this.getAttribute("data-productsimageid")) || 0;
+               let arrivingDays = parseInt(this.getAttribute("data-arrivingdays")) || 0;
+
+               addToCart(productName, productImage, productType, productColor, productDescription, price, productId, productsImageId, arrivingDays);
+
+                //showMessageModal("success", "Added to Cart Successfully");
+           });
+           // updateCartCount();
+       });
+
+       async function checkStockAvailability(productImageId, requestedQty) {
+             try {
+                 let response = await fetch(`/Home/CheckStockAvailability?productImageId=${productImageId}&requestedQty=${requestedQty}`);
+                 let data = await response.json();
+                 return response.ok && data.success; //  Return true if stock is available
+             } catch (error) {
+                 console.error(" Error checking stock:", error);
+                 return false;
+             }
+       }
+
+       async function addToCart(productName, productImage, productType, productColor, productDescription, price, productId, productsImageId, arrivingDays) {
+           try {
+               let userId = getCookie("IShopId"); // Get logged-in user ID if available
+           
+               // Step 1: Load existing cart from localStorage
+               let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+           
+               // Step 2: Check for existing item in cart
+               let existingItemIndex = cartItems.findIndex(
+                   item => item.productId.toString() === productId.toString() &&
+                           item.productsImageId.toString() === productsImageId.toString()
+               );
+           
+               let newQuantity = 1;
+               if (existingItemIndex !== -1) {
+                   newQuantity = cartItems[existingItemIndex].quantity + 1;
+               }
+           
+               // Step 3: Check stock availability
+               const isAvailable = await checkStockAvailability(productsImageId, newQuantity);
+               if (!isAvailable) {
+                   showMessageModal("error", "Quantity is out of stock!");
+                   return;
+               }
+           
+               // Step 4: Update cartItems (localStorage)
+               if (existingItemIndex !== -1) {
+                   cartItems[existingItemIndex].quantity = newQuantity;
+                   cartItems[existingItemIndex].total = (newQuantity * price).toFixed(2);
+               } else {
+                   cartItems.push({
+                       name: productName,
+                       image: productImage,
+                       type: productType,
+                       color: productColor,
+                       description: productDescription,
+                       quantity: 1,
+                       price: price,
+                       total: price.toFixed(2),
+                       productId: productId,
+                       productsImageId: productsImageId,
+                       arrivingDays: arrivingDays
+                   });
+               }
+           
+               // Step 5: Save to localStorage
+               localStorage.setItem("cartItems", JSON.stringify(cartItems));
+           
+               // Step 6: Sync cart with cookie or database
+               if (userId) {
+                   await saveCartToDatabase(cartItems); // Logged-in user
+               } else {
+                   // Guest user - handle cart in cookies
+                   let cookieCart = [];
+                   try {
+                       let cookieRaw = getCookie("cartItems");
+                       cookieCart = cookieRaw ? JSON.parse(cookieRaw) : [];
+                   } catch (err) {
+                       console.warn("Bad cartItems cookie, resetting.");
+                       cookieCart = [];
+                   }
+           
+                   let cookieIndex = cookieCart.findIndex(
+                       item => item.productId.toString() === productId.toString() &&
+                               item.productsImageId.toString() === productsImageId.toString()
+                   );
+           
+                   if (cookieIndex !== -1) {
+                       cookieCart[cookieIndex].quantity += 1;
+                       cookieCart[cookieIndex].total = (cookieCart[cookieIndex].quantity * price).toFixed(2);
+                   } else {
+                       cookieCart.push({
+                           name: productName,
+                           image: productImage,
+                           type: productType,
+                           color: productColor,
+                           description: productDescription,
+                           quantity: 1,
+                           price: price,
+                           total: price.toFixed(2),
+                           productId: productId,
+                           productsImageId: productsImageId,
+                           arrivingDays: arrivingDays
+                       });
+                   }
+           
+                   document.cookie = `cartItems=${JSON.stringify(cookieCart)}; path=/; expires=${new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toUTCString()}`;
+               }
+           
+               // Step 7: Update UI
+               updateCartCount();
+               showMessageModal("success", "Item Added.");
+           } catch (error) {
+               console.error("Error adding to cart:", error);
+           }
+       }
+
+       // Function to get a cookie value
+       function getCookie(name) {
+           const value = `; ${document.cookie}`;
+           const parts = value.split(`; ${name}=`);
+           if (parts.length === 2) {
+               return parts.pop().split(';').shift();
+           }
+           return null;
+       }
+
+
+       async function loadCartFromDatabase() {
+          let userId = getCookie("IShopId");
+
+          if (userId) {
+              // Fetch from database
+              let response = await fetch("/Home/GetCart");
+              let data = await response.json();
+
+              if (data.success && data.cartItems.length > 0) {
+                  localStorage.setItem("cartItems", JSON.stringify(data.cartItems));
+              }
+          } else {
+              // Fetch from cookies for guests
+                 let cartItems = getCookie("cartItems");
+                  if (cartItems) {
+                      localStorage.setItem("cartItems", cartItems);
+                }
+          }
+
+          updateCartCount();
+       }
+
+       function showMessageModal(type, message) {
+               let modalTitle = document.getElementById("messageModalLabel");
+               let modalBody = document.getElementById("messageText");
+               let modalHeader = document.querySelector("#messageModal .modal-header");
+
+               // Update the modal based on type (success or error)
+               if (type === "success") {
+                   modalTitle.innerText = "Success";
+                   modalBody.innerHTML = ` ${message}`;
+                   modalHeader.classList.add("bg-success", "text-white");
+                   modalHeader.classList.remove("bg-danger");
+               } else if (type === "error") {
+                   modalTitle.innerText = "Error";
+                   modalBody.innerHTML = ` ${message}`;
+                   modalHeader.classList.add("bg-danger", "text-white");
+                   modalHeader.classList.remove("bg-success");
+               }
+
+               // Show the modal
+               let messageModal = new bootstrap.Modal(document.getElementById("messageModal"));
+               messageModal.show();
+       }
+
+    });
+</script>

@@ -1,0 +1,897 @@
+﻿@model ECommerce.Models.Products
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Product";
+    // var productDetails = Model.ProductImages.FirstOrDefault(x => x.ProductsImageId == @ViewBag.ProductImageId);
+    var productDetails = Model?.ProductImages?.FirstOrDefault(x => x.ProductsImageId == ViewBag.ProductImageId);
+
+    var slug = Model.Slug;
+    var defaultImage = productDetails.LargeImage;
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/easyzoom/2.5.2/easyzoom.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/easyzoom/2.5.2/easyzoom.min.js"></script>
+<script src="https://unpkg.com/drift-zoom/dist/Drift.min.js"></script>
+
+<style>
+    .zoom-layout {
+        display: flex;
+        align-items: flex-start;
+        gap: 30px;
+    }
+
+    .image-box {
+        position: relative;
+        width: 500px;
+        height: 500px;
+    }
+
+    .image-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    #mainImage {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    #zoomLens {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border: 1px solid #000;
+        background: rgba(0, 0, 0, 0.2);
+        display: none;
+        pointer-events: none;
+    }
+
+    #zoomContainer {
+        width: 600px;
+        height: 500px;
+        border: 1px solid #ddd;
+        overflow: hidden;
+        background-color: white;
+        display: none;
+    }
+
+    #zoomResult {
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-size: 800px 800px; /* 2x zoom */
+    }
+</style>
+
+<!-- breadcrumb -->
+<div class="tf-breadcrumb">
+    <div class="container">
+        <div class="tf-breadcrumb-wrap">
+            <div class="tf-breadcrumb-list">
+                <a href="@Url.Action("Index", "Home")" class="text text-caption-1">IShop</a>
+                <i class="icon icon-arrRight"></i>
+                <a href="@Url.Action("Products", "Home")" class="text text-caption-1">Products</a>
+                <i class="icon icon-arrRight"></i>
+                <span class="text text-caption-1">@Model.Name</span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /breadcrumb -->
+<!-- Product_Main -->
+<section class="flat-spacing">
+    <div class="tf-main-product section-image-zoom">
+        <div class="container">
+            <div class="row">
+                <!-- Product default -->
+                <div class="col-md-6">
+                    <div class="tf-product-media-wrap sticky-top">
+                        <div class="thumbs-slider">
+                            <div dir="ltr" class="swiper tf-product-media-thumbs other-image-zoom" data-direction="vertical">
+                                <div class="swiper-wrapper stagger-wrap">
+                                    <div class="swiper-slide stagger-item" data-color="gray">
+                                        <div class="item">
+                                            <img class="lazyload" data-src="@productDetails.SmallImage" src="@productDetails.SmallImage" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="zoom-layout">
+                                <!-- Image Section -->
+                                <div class="image-box">
+                                    <div class="image-wrapper">
+                                        <img id="mainImage" src="@defaultImage" alt="Product Image">
+                                        <div id="zoomLens"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Zoom Result Section -->
+                                <div id="zoomContainer">
+                                    <div id="zoomResult"></div>
+                                </div>
+                            </div>
+                              
+                        </div>
+                    </div>
+                </div>
+                <!-- /Product default -->
+                <!-- tf-product-info-list -->
+                <div class="col-md-6">
+                    <div class="tf-product-info-wrap position-relative">
+                        <div class="tf-zoom-main"></div>
+                        <div class="tf-product-info-list other-image-zoom">
+                            <div class="tf-product-info-heading">
+                                <div class="tf-product-info-name">
+                                    <div class="text text-btn-uppercase">@productDetails.Type</div>
+                                    <h3 class="name">@Model.Name</h3>
+                                </div>
+                                <div class="tf-product-info-desc">
+                                    <div class="tf-product-info-price">
+                                        <h5 class="price-on-sale font-2">₹@productDetails.Price.ToString("0.00")</h5>
+                                        @if (productDetails.Discount > 0)
+                                        {
+                                            <div class="compare-at-price font-2">₹@productDetails.MRP</div>
+                                            <div class="badges-on-sale text-btn-uppercase">
+                                                -@productDetails.Discount%
+                                            </div>
+                                        }
+                                    </div>
+                                    <p>@productDetails.Description</p>                                  
+                                </div>
+                            </div>
+                            <div class="tf-product-info-choose-option">
+                                <div class="variant-picker-item">
+                                    <div class="variant-picker-label mb_12">
+                                        Colors:<span class="text-title variant-picker-label-value value-currentColor">@productDetails.Color</span>
+                                    </div>
+                                   <ul class="list-color-product" data-product="@Model.ProductId">
+                                        @foreach (var item in Model.ProductImages)
+                                        {
+                                            var hexColor = ColorHelper.GetHexColor(item.Color);
+                                            <li class="color-swatch list-color-item"
+                                                data-image="@item.MediumImage"
+                                                data-colorslug="@item.ColorSlug"
+                                                data-typeslug="@item.TypeSlug"
+                                                data-color="@item.Color"
+                                                style="cursor: pointer;">
+                                                <span class="swatch-value" style="background-color: @hexColor" title="@item.Color"></span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="tf-product-info-quantity">
+                                    <div class="title mb_12">Quantity:</div>
+                                    <div class="wg-quantity" data-products-image-id="@Model.ProductsImageId">
+                                        <span class="btn-quantity btn-decrease">-</span>
+                                        <input id="cartQuantity" class="quantity-product" type="text" name="number" value="1">
+                                        <span class="btn-quantity btn-increase">+</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="tf-product-info-by-btn mb_10">
+                                        <a id="addToCartBtn" href="#" data-bs-toggle="modal" class="btn-style-2 flex-grow-1 text-btn-uppercase fw-6 btn-add-to-cart"><span>Add to cart</span></a>
+                                    </div>
+                                </div>
+                                <div class="tf-product-info-help">                                   
+                                    <div class="tf-product-info-time">
+                                        <div class="icon">
+                                            <i class="icon-timer"></i>
+                                        </div>
+                                        <p class="text-caption-1">Estimated Delivery:&nbsp;&nbsp;<span>3-10 days</span> (India), <span>10-25 days</span> (International)</p>
+                                    </div>
+                                    <div class="tf-product-info-return">
+                                        <div class="icon">
+                                            <i class="icon-arrowClockwise"></i>
+                                        </div>
+                                        <p class="text-caption-1">Return within <span>14 days</span> of purchase. Duties & taxes are non-refundable.</p>
+                                    </div>
+                                </div>
+                                <ul class="tf-product-info-sku">
+                                    <li>
+                                        <p class="text-caption-1">Available :</p>
+                                        @if (productDetails.Quantity > 0)
+                                        {
+                                            <p class="text-caption-1 text-1 fs-6 fw-6 text-success">In stock</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-caption-1 text-1 fs-6 fw-6 text-danger">Out of stock</p>
+                                        }
+                                    </li>
+                                    <li>
+                                        <p class="text-caption-1">Categories :</p>
+                                        <p class="text-caption-1">@productDetails.Type</p>
+                                    </li>
+                                </ul>
+                                <div class="tf-product-info-guranteed">
+                                    <div class="text-title">
+                                        Guranteed safe checkout:
+                                    </div>
+                                    <div class="tf-payment">
+                                        <a href="#">
+                                            <img src="~/content/images/payment/img-1.png" alt="">
+                                        </a>
+                                        <a href="#">
+                                            <img src="~/content/images/payment/img-2.png" alt="">
+                                        </a>
+                                        <a href="#">
+                                            <img src="~/content/images/payment/img-3.png" alt="">
+                                        </a>
+                                        <a href="#">
+                                            <img src="~/content/images/payment/img-4.png" alt="">
+                                        </a>
+                                        <a href="#">
+                                            <img src="~/content/images/payment/img-5.png" alt="">
+                                        </a>
+                                        <a href="#">
+                                            <img src="~/content/images/payment/img-6.png" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /tf-product-info-list -->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /Product_Main -->
+<!-- Product_Description_Tabs -->
+<section class="">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="widget-tabs style-1">
+                    <ul class="widget-menu-tab">
+                        <li class="item-title active">
+                            <span class="inner">Description</span>
+                        </li>
+                        <li class="item-title">
+                            <span class="inner">Shipping & Returns</span>
+                        </li>
+                        <li class="item-title">
+                            <span class="inner">Return Policies</span>
+                        </li>
+                    </ul>
+                    <div class="widget-content-tab">
+                        <div class="widget-content-inner active">
+                            <div class="tab-description">
+                                <div class="right">
+                                    <div class="letter-1 text-btn-uppercase mb_12">@Model.Name</div>
+                                    <p class="mb_12 text-secondary">@productDetails.Description</p>
+                                </div>
+                                <div class="left">
+                                    <div class="letter-1 text-btn-uppercase mb_12">@* COMPOSITION,  *@ORIGIN AND CARE GUIDELINES</div>
+                                    <ul class="list-text type-disc mb_12 gap-6">
+                                        @* <li class="font-2">Composition: 55% polyester, 30% acrylic, 13% polyamide, 2% elastane</li> *@
+                                        <li class="font-2">Designed in India</li>
+                                        <li class="font-2">Origin</li>
+                                        <li class="font-2">Manufacture: INDIA</li>
+                                    </ul>
+                                    <div class="text-caption-2">Store in a cool, dry place, avoid direct sunlight, keep away from children, and discontinue use if irritation occurs.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content-inner">
+                            <div class="tab-shipping">
+                                <div class="w-100">
+                                    <div class="text-btn-uppercase mb_12">We've got your back</div>
+                                    <p class="mb_12">One delivery fee to most locations</p>
+                                    <p class="">Free returns within 14 days (excludes final sale and made-to-order items, face masks and certain products containing hazardous or flammable materials, such as fragrances and aerosols)</p>
+                                </div>
+                                <div class="w-100">
+                                    <div class="text-btn-uppercase mb_12">Import duties information</div>
+                                    <p>Let us handle the legwork. Delivery duties are included in the item price when shipping to all countries. All import duties are included in your order – the price you see is the price you pay.</p>
+                                </div>
+                                <div class="w-100">
+                                    <div class="text-btn-uppercase mb_12">Estimated delivery</div>
+                                    <p class="mb_6 font-2">Express: 3 - 25 Days</p>
+                                    <p class="font-2">Sending from INDIA</p>
+                                </div>
+                                <div class="w-100">
+                                    <div class="text-btn-uppercase mb_12">Need more information?</div>
+                                    <div>
+                                        <a href="@Url.Action("AboutUs", "Home")" class="link text-secondary text-decoration-underline mb_6 font-2">About US</a>
+                                    </div>
+                                    <div>
+                                        <a href="@Url.Action("ContactUs", "Home")" class="link text-secondary text-decoration-underline mb_6 font-2">Contact US</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content-inner">
+                            <div class="tab-policies">
+                                <div class="text-btn-uppercase mb_12">Return Policies</div>
+                                <p class="mb_12 text-secondary">At IShop, we stand behind the quality of our products. If you're not completely satisfied with your purchase, we offer hassle-free returns within 14 days of delivery.</p>
+                                <div class="text-btn-uppercase mb_12">Easy Exchanges or Refunds</div>
+                                <ul class="list-text type-disc mb_12 gap-6">
+                                    <li class="text-secondary font-2">Exchange your item for a different size, color, or style, or receive a full refund.</li>
+                                    <li class="text-secondary font-2">All returned items must be unworn, in their original packaging, and with tags attached.</li>
+                                </ul>
+                                <div class="text-btn-uppercase mb_12">Simple Process</div>
+                                <ul class="list-text type-number">
+                                    <li class="text-secondary font-2">Initiate your return online or contact our customer service team for assistance.</li>
+                                    <li class="text-secondary font-2">Pack your item securely and include the original packing slip.</li>
+                                    <li class="text-secondary font-2">Ship your return back to us using our prepaid shipping label.</li>
+                                    <li class="text-secondary font-2">Once received, your refund will be processed promptly.</li>
+                                </ul>
+                                <p class="text-secondary font-2">For any questions or concerns regarding returns, don't hesitate to reach out to our dedicated customer service team. Your satisfaction is our priority.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /Product_Description_Tabs -->
+<!-- Ralated Products -->
+<section class="flat-spacing">
+    <div class="container flat-animate-tab">
+        <ul class="tab-product justify-content-sm-center wow fadeInUp" data-wow-delay="0s" role="tablist">
+            <li class="nav-tab-item" role="presentation">
+                <a href="#ralatedProducts" class="active" data-bs-toggle="tab">Related Products</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active show" id="ralatedProducts" role="tabpanel">
+                <div dir="ltr" class="swiper tf-sw-latest" data-preview="4" data-tablet="3" data-mobile="2" data-space-lg="30" data-space-md="30" data-space="15" data-pagination="1" data-pagination-md="1" data-pagination-lg="1">
+                    <div class="swiper-wrapper">
+                        @if (ViewBag.AllProducts != null && ((List<ECommerce.Models.Products>)ViewBag.AllProducts).Count > 0)
+                        {
+                            var result = (List<ECommerce.Models.Products>)ViewBag.AllProducts;
+                            @foreach (var product in result.Take(4).ToList())
+                            {
+                                var productImage = product.ProductImages.FirstOrDefault();
+                                if (productImage != null)
+                                {
+                                    <div class="swiper-slide">
+                                        <div class="card-product wow fadeInUp" data-wow-delay="0.1s">
+                                            <div class="card-product-wrapper">
+                                                <div class="list-color-product">
+                                                    <a id="product-link-@product.ProductId"
+                                                       class="product-img"
+                                                       asp-action="ProductDetails"
+                                                       asp-controller="Home"
+                                                       asp-route-slug="@product.Slug"
+                                                       asp-route-typeslug="@product.ProductImages.FirstOrDefault()?.TypeSlug"
+                                                       asp-route-colorslug="@product.ProductImages.FirstOrDefault()?.ColorSlug"
+                                                       data-slug="@product.Slug">
+
+                                                        <img id="main-img-@product.ProductId"
+                                                             class="img-product"
+                                                             src="@product.ProductImages.FirstOrDefault()?.MediumImage"
+                                                             alt="product image" />
+
+                                                        <img id="hover-img-@product.ProductId"
+                                                             class="img-hover"
+                                                             src="@product.ProductImages.FirstOrDefault()?.MediumImage"
+                                                             alt="hover image" />
+                                                    </a>
+                                                </div>
+
+                                                @if (productImage.Discount > 0)
+                                                {
+                                                    <div class="on-sale-wrap"><span class="on-sale-item">-@productImage.Discount%</span></div>
+                                                }
+
+                                                <div class="list-btn-main-">
+                                                    <a id="view-product-btn-@product.ProductId"
+                                                       asp-action="ProductDetails"
+                                                       asp-route-slug="@product.Slug"
+                                                       asp-route-typeslug="@productImage.TypeSlug"
+                                                       asp-route-colorslug="@productImage.ColorSlug"
+                                                       class="btn-main-product">
+                                                        View product
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="card-product-info">
+                                                <a id="product-text-link-@product.ProductId"
+                                                   class="title link"
+                                                   asp-action="ProductDetails"
+                                                   asp-controller="Home"
+                                                   asp-route-slug="@product.Slug"
+                                                   asp-route-typeslug="@product.ProductImages.FirstOrDefault()?.TypeSlug"
+                                                   asp-route-colorslug="@product.ProductImages.FirstOrDefault()?.ColorSlug"
+                                                   data-slug="@product.Slug">
+                                                    @product.Name
+                                                </a>
+                                                @if (productImage.Discount > 0)
+                                                {
+                                                    <span class="price"><span class="old-price">₹@productImage.MRP</span> ₹@productImage.Price</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="price">₹@productImage.Price</span>
+                                                }
+                                                <div class="list-color-productrelated">
+                                                    <ul class="list-color-product" data-product="@product.ProductId">
+                                                        @foreach (var item in product.ProductImages)
+                                                        {
+                                                            var hexColor = ColorHelper.GetHexColor(item.Color);
+                                                            <li class="color-swatch list-color-item @(item == product.ProductImages.First() ? "active" : "")"
+                                                                data-image="@item.MediumImage"
+                                                                data-colorslug="@item.ColorSlug"
+                                                                data-typeslug="@item.TypeSlug"
+                                                                data-product="@product.ProductId"
+                                                                data-color="@item.Color"
+                                                                data-type="@item.Type"
+                                                                data-description="@item.Description"
+                                                                data-price="@item.Price"
+                                                                data-productsimageid="@item.ProductsImageId"
+                                                                data-arrivingdays="@item.ArrivingDays">
+                                                                <span class="swatch-value" style="background-color: @hexColor;" title="@item.Color"></span>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+                    <div class="sw-pagination-latest sw-dots type-circle justify-content-center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /Ralated Products -->
+<!-- Common Modal for Success & Error Messages -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <h5 id="messageText">Your message here.</h5>
+            </div>
+            <br />
+            <hr />
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-5">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+                </div>
+                <div class="col-md-5">
+                    <a asp-controller="Home" asp-action="Cart" class="btn btn-secondary">Go To Cart</a>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mainImage = document.getElementById("mainImage");
+        const zoomLens = document.getElementById("zoomLens");
+        const zoomContainer = document.getElementById("zoomContainer");
+        const zoomResult = document.getElementById("zoomResult");
+
+         let addToCartBtn = document.getElementById("addToCartBtn");
+        let cartQuantity = document.getElementById("cartQuantity");
+
+        let price = @productDetails?.Price ?? 0;
+        let productName = "@Html.Raw(Model.Name)";
+        let productImage = "@Html.Raw(productDetails?.LargeImage)";
+        let productType = "@Html.Raw(productDetails?.Type)";
+        let productColor = "@Html.Raw(productDetails?.Color)";
+        let productDescription = "@Html.Raw(productDetails?.Description)";
+        let productId = @Model.ProductId ?? 0;
+        let productsImageId = @productDetails?.ProductsImageId ?? 0;
+        let arrivingDays = @productDetails?.ArrivingDays ?? 0;
+
+        function setZoomImage() {
+          zoomResult.style.backgroundImage = `url(${mainImage.src})`;
+        }
+
+        if (mainImage.complete) {
+          setZoomImage();
+        } else {
+          mainImage.addEventListener("load", setZoomImage);
+        }
+
+        mainImage.addEventListener("mouseenter", () => {
+          zoomLens.style.display = "block";
+          zoomContainer.style.display = "block";
+        });
+
+        mainImage.addEventListener("mouseleave", () => {
+          zoomLens.style.display = "none";
+          zoomContainer.style.display = "none";
+        });
+
+        mainImage.addEventListener("mousemove", moveLens);
+        zoomLens.addEventListener("mousemove", moveLens);
+
+        function moveLens(e) {
+          const rect = mainImage.getBoundingClientRect();
+          const x = e.pageX - rect.left - window.scrollX - zoomLens.offsetWidth / 2;
+          const y = e.pageY - rect.top - window.scrollY - zoomLens.offsetHeight / 2;
+
+          const maxX = mainImage.width - zoomLens.offsetWidth;
+          const maxY = mainImage.height - zoomLens.offsetHeight;
+
+          const lensX = Math.max(0, Math.min(x, maxX));
+          const lensY = Math.max(0, Math.min(y, maxY));
+
+          zoomLens.style.left = `${lensX}px`;
+          zoomLens.style.top = `${lensY}px`;
+
+          zoomResult.style.backgroundPosition = `-${lensX * 2}px -${lensY * 2}px`;
+        }
+
+        loadCartFromDatabase();
+        updateCartCount();
+
+        document.querySelectorAll('.list-color-productrelated .color-swatch').forEach(swatch => {
+            swatch.addEventListener('mouseenter', function () {
+                const productId = this.getAttribute('data-product');
+                const newImage = this.getAttribute('data-image');
+                const colorSlug = this.getAttribute('data-colorslug');
+                const typeSlug = this.getAttribute('data-typeslug');
+
+                const mainImg = document.getElementById('main-img-' + productId);
+                const hoverImg = document.getElementById('hover-img-' + productId);
+                const productLink = document.getElementById('product-link-' + productId);
+                const productTextLink = document.getElementById('product-text-link-' + productId);
+                const viewProductBtn = document.getElementById('view-product-btn-' + productId);
+                const addToCartBtn = document.getElementById('add-to-cart-btn-' + productId);
+
+                //  Change images
+                if (mainImg && newImage) mainImg.src = newImage;
+                if (hoverImg && newImage) hoverImg.src = newImage;
+
+                //  Update product detail URLs
+                if (productLink && productLink.dataset.slug && typeSlug && colorSlug) {
+                    productLink.href = `/Home/ProductDetails/${productLink.dataset.slug}/${typeSlug}/${colorSlug}`;
+                }
+
+                if (productTextLink && productTextLink.dataset.slug && typeSlug && colorSlug) {
+                    productTextLink.href = `/Home/ProductDetails/${productTextLink.dataset.slug}/${typeSlug}/${colorSlug}`;
+                }
+
+                if (viewProductBtn && productLink && productLink.dataset.slug && typeSlug && colorSlug) {
+                    const url = `/Home/ProductDetails/${productLink.dataset.slug}/${typeSlug}/${colorSlug}`;
+                    viewProductBtn.href = url;
+                }
+
+                //  Active state for swatches
+                const parentList = swatch.closest('.list-color-productrelated');
+                if (parentList) {
+                    parentList.querySelectorAll('.color-swatch').forEach(el => el.classList.remove('active'));
+                    swatch.classList.add('active');
+                }
+
+                //  Update add to cart attributes
+                if (addToCartBtn) {
+                    addToCartBtn.setAttribute('data-image', newImage);
+                    addToCartBtn.setAttribute('data-color', swatch.getAttribute('data-color'));
+                    addToCartBtn.setAttribute('data-type', swatch.getAttribute('data-type'));
+                    addToCartBtn.setAttribute('data-description', swatch.getAttribute('data-description'));
+                    addToCartBtn.setAttribute('data-price', swatch.getAttribute('data-price'));
+                    addToCartBtn.setAttribute('data-productsimageid', swatch.getAttribute('data-productsimageid'));
+                    addToCartBtn.setAttribute('data-arrivingdays', swatch.getAttribute('data-arrivingdays'));
+                }
+
+                swatch.addEventListener('click', function () {
+                    const productId = this.getAttribute('data-product');
+                    const colorSlug = this.getAttribute('data-colorslug');
+                    const typeSlug = this.getAttribute('data-typeslug');
+
+                    const productLink = document.getElementById('product-link-' + productId);
+                    if (productLink && productLink.dataset.slug && typeSlug && colorSlug) {
+                        const slug = productLink.dataset.slug;
+                        const url = `/Home/ProductDetails/${slug}/${typeSlug}/${colorSlug}`;
+                        window.location.href = url;
+                    }
+                });
+            });
+        });
+
+        const slug = '@slug';
+        const defaultImage = '@defaultImage';
+        const defaultColorName = '@productDetails.Color'; //  Default color name from Razor
+        const mainImg = document.getElementById('mainImage');
+        const colorLabel = document.querySelector('.value-currentColor');
+
+        if (mainImg && defaultImage) {
+            mainImg.src = defaultImage;
+        }
+
+        if (colorLabel && defaultColorName) {
+            colorLabel.textContent = defaultColorName;
+        }
+
+        document.querySelectorAll('.list-color-product .color-swatch').forEach(swatch => {
+            // Hover: change image and color name
+            swatch.addEventListener('mouseenter', function () {
+                const newImage = this.getAttribute('data-image');
+                const newColorName = this.getAttribute('data-color');
+
+                if (mainImg && newImage) {
+                    mainImg.src = newImage;
+                }
+
+                if (colorLabel && newColorName) {
+                    colorLabel.textContent = newColorName;
+                }
+            });
+
+            // Mouse leave: revert to default image and color name
+            swatch.addEventListener('mouseleave', function () {
+                if (mainImg && defaultImage) {
+                    mainImg.src = defaultImage;
+                }
+
+                if (colorLabel && defaultColorName) {
+                    colorLabel.textContent = defaultColorName;
+                }
+            });
+
+            // Click: go to detail page
+            swatch.addEventListener('click', function () {
+                const colorSlug = this.getAttribute('data-colorslug');
+                const typeSlug = this.getAttribute('data-typeslug');
+
+                if (slug && typeSlug && colorSlug) {
+                    const newUrl = `/Home/ProductDetails/${slug}/${typeSlug}/${colorSlug}`;
+                    window.location.href = newUrl;
+                }
+            });
+        });
+
+        async function checkStockAvailability(productImageId, requestedQty) {
+            try {
+                let response = await fetch(`/Home/CheckStockAvailability?productImageId=${productImageId}&requestedQty=${requestedQty}`);
+                let data = await response.json();
+                return response.ok && data.success; //  Return true if stock is available
+            } catch (error) {
+                console.error(" Error checking stock:", error);
+                return false;
+            }
+        }
+
+        document.querySelector(".wg-quantity").addEventListener("click", async (event) => {
+                const quantityInput = event.currentTarget.querySelector(".quantity-product");
+                let currentQty = parseInt(quantityInput.value);
+                const productImageId = event.currentTarget.getAttribute("data-products-image-id");
+
+                 if (event.target.classList.contains("btn-increase")) {
+                       let isAvailable = await checkStockAvailability(productsImageId, quantity + 1);
+                       if (!isAvailable) {
+                          showMessageModal("error"," Stock limit reached! Cannot increase quantity.");
+                           return;
+                       }
+                        quantity + 1;
+                    } else if (event.target.classList.contains("btn-decrease") && quantity > 1) {
+                        quantity - 1;
+                    }
+            });
+
+        function updateCartCount() {
+             let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+             let totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+             let cartItemCount = document.getElementById("cartItemCount");
+
+             if (cartItemCount) {
+                 cartItemCount.innerText = totalItems;
+             } else {
+                 console.error("cartItemCount element not found in DOM!");
+             }
+
+             console.log(`Cart updated: ${totalItems} items`);
+         }
+
+        async function addToCart(productName, productImage, productType, productColor, productDescription, price, productId, productsImageId, arrivingDays) {
+             try {
+
+                 let response = await fetch(`/Home/CheckCartItem`, {
+                     method: "POST",
+                     headers: { "Content-Type": "application/json" },
+                     body: JSON.stringify({ productId, productsImageId })
+                 });
+
+                 if (!response.ok) {
+                     throw new Error(`HTTP error! Status: ${response.status}`);
+                 }
+
+                 let result = await response.json();
+
+                 let userId = getCookie("IShopId");
+
+                 let cartQuantity = document.getElementById("cartQuantity");
+                 let quantity = 1;
+
+                 if (cartQuantity) {
+                    quantity = parseInt(cartQuantity.value) || 1; // Use the value of cartQuantity or default to 1 if it's not a valid number
+                 } else {
+                     console.warn("cartQuantity element not found, using default quantity of 1");
+                 }
+
+                 const isAvailable = await checkStockAvailability(productsImageId, quantity);
+                 if (!isAvailable) {
+                       showMessageModal("error", "Quantity is out of stock!");
+                       return; // Stop here if not enough stock
+                 }
+
+                 let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+                 let existingItemIndex = cartItems.findIndex(
+                       item => item.productId.toString() === productId.toString() &&
+                               item.productsImageId.toString() === productsImageId.toString()
+                 );
+
+                  if (existingItemIndex !== -1) {
+                      // Update existing item
+                      cartItems[existingItemIndex].quantity += quantity;
+                      cartItems[existingItemIndex].total = (cartItems[existingItemIndex].quantity * price).toFixed(2);
+                  }else {
+                      cartItems.push({
+                          name: productName,
+                          image: productImage,
+                          type: productType,
+                          color: productColor,
+                          description: productDescription,
+                          quantity: quantity,
+                          price: price,
+                          total: price.toFixed(2),
+                          productId: productId,
+                          productsImageId: productsImageId,
+                          arrivingDays: arrivingDays
+                      });
+                  }
+
+                 localStorage.setItem("cartItems", JSON.stringify(cartItems));
+
+                 console.log("Updated cartItems:", cartItems);
+
+                if (userId) {
+                        // Step 4: If logged in, save to database
+                        await saveCartToDatabase(cartItems);
+                } else {
+                    // Guest user - handle cart in cookies
+                    let cookieCart = [];
+                    try {
+                        let cookieRaw = getCookie("cartItems");
+                        cookieCart = cookieRaw ? JSON.parse(cookieRaw) : [];
+                    } catch (err) {
+                        console.warn("Bad cartItems cookie, resetting.");
+                        cookieCart = [];
+                    }
+
+                    let cookieIndex = cookieCart.findIndex(
+                        item => item.productId.toString() === productId.toString() &&
+                                item.productsImageId.toString() === productsImageId.toString()
+                    );
+
+                    if (cookieIndex !== -1) {
+                        cookieCart[cookieIndex].quantity += quantity;
+                        cookieCart[cookieIndex].total = (cookieCart[cookieIndex].quantity * price).toFixed(2);
+                    } else {
+                        cookieCart.push({
+                            name: productName,
+                            image: productImage,
+                            type: productType,
+                            color: productColor,
+                            description: productDescription,
+                            quantity: quantity,
+                            price: price,
+                            total: price.toFixed(2),
+                            productId: productId,
+                            productsImageId: productsImageId,
+                            arrivingDays: arrivingDays
+                        });
+                    }
+
+                    document.cookie = `cartItems=${JSON.stringify(cookieCart)}; path=/; expires=${new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toUTCString()}`;
+                }
+
+                  updateCartCount();
+                  loadCartFromDatabase();
+
+                  showMessageModal("success", "Item Added.")
+
+             } catch (error) {
+                 console.error("Error checking cart item:", error);
+             }
+        }
+
+        // Function to get a cookie value
+        function getCookie(name) {
+           const value = `; ${document.cookie}`;
+           const parts = value.split(`; ${name}=`);
+           if (parts.length === 2) {
+               return parts.pop().split(';').shift();
+           }
+           return null;
+        }
+
+        async function saveCartToDatabase(cartItems) {
+            let userId = getCookie("IShopId");
+
+            if (!userId) {
+                console.log("User is not logged in. Cart stored in localStorage & cookies.");
+                return;
+            }
+
+            let response = await fetch("/Home/SaveCart", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(cartItems),
+            });
+
+            if (response.ok) {
+                console.log("Cart saved to database.");
+                loadCartFromDatabase();
+            } else {
+                console.log("Failed to save cart.");
+            }
+        }
+
+        async function loadCartFromDatabase() {
+            let userId = getCookie("IShopId");
+
+            if (userId) {
+                // Fetch from database
+                let response = await fetch("/Home/GetCart");
+                let data = await response.json();
+
+                if (data.success && data.cartItems.length > 0) {
+                    localStorage.setItem("cartItems", JSON.stringify(data.cartItems));
+                }
+            } else {
+                // Fetch from cookies for guests
+                  let cartItems = getCookie("cartItems");
+                  if (cartItems) {
+                      localStorage.setItem("cartItems", cartItems);
+                }
+            }
+
+            updateCartCount();
+        }
+
+        if (addToCartBtn) {
+              addToCartBtn.addEventListener("click", function () {
+              addToCart(productName, productImage, productType, productColor, productDescription, price, productId, productsImageId, arrivingDays);
+               //alert("Item added to cart!");
+              });
+        }
+
+        function showMessageModal(type, message) {
+            let modalTitle = document.getElementById("messageModalLabel");
+            let modalBody = document.getElementById("messageText");
+            let modalHeader = document.querySelector("#messageModal .modal-header");
+
+            // Update the modal based on type (success or error)
+            if (type === "success") {
+                modalTitle.innerText = "Success";
+                modalBody.innerHTML = ` ${message}`;
+                modalHeader.classList.add("bg-success", "text-white");
+                modalHeader.classList.remove("bg-danger");
+            } else if (type === "error") {
+                modalTitle.innerText = "Error";
+                modalBody.innerHTML = ` ${message}`;
+                modalHeader.classList.add("bg-danger", "text-white");
+                modalHeader.classList.remove("bg-success");
+            }
+
+            // Show the modal
+            let messageModal = new bootstrap.Modal(document.getElementById("messageModal"));
+            messageModal.show();
+        }
+    });
+</script>

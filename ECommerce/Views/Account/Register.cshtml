@@ -1,0 +1,218 @@
+﻿@model Register
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Register";
+}
+<!-- page-title -->
+<div class="page-title" style="background-image: url('@Url.Content("~/content/images/section/page-title.jpg")');">
+    <div class="container-full">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="heading text-center">Create An Account</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page-title -->
+<!-- register -->
+<section class="flat-spacing">
+    <div class="container">
+        <div class="login-wrap">
+            <div class="left">
+                <div class="heading">
+                    <h4>Register</h4>
+                </div>
+                <form id="registerForm" onsubmit="return validateForm();" asp-action="Register" method="post" class="form-login form-has-password">
+                    <div class="wrap">
+                        <fieldset class="">
+                            <input class="" id="firstName" asp-for="FirstName" placeholder="Firstname*" name="firstName" tabindex="2" value="" aria-required="true" required="">
+                            <span id="firstNameError" class="text-danger"></span>
+                        </fieldset>
+                        <fieldset class="">
+                            <input class="" id="lastName" asp-for="LastName" placeholder="Lastname*" name="lastName" tabindex="2" value="" aria-required="true" required="">
+                            <span id="lastNameError" class="text-danger"></span>
+                        </fieldset>
+                        <fieldset class="">
+                            <input class="" id="mobile" asp-for="Mobile" type="text" placeholder="Mobile number*" name="mobile"  tabindex="2" value="" maxlength="10" aria-required="true" required="">
+                            <span id="mobileError" class="text-danger"></span>
+                        </fieldset>
+                        <fieldset class="">
+                            <input class="" id="email" asp-for="Email" placeholder="Email*" name="email" tabindex="2" value="" aria-required="true" required="">
+                            <span id="emailError" class="text-danger"></span>
+                        </fieldset>
+                        <fieldset class="position-relative password-item">
+                            <input class="input-password" type="password" placeholder="Password*" name="password" id="password" asp-for="Password" tabindex="2" value="" aria-required="true" required="">
+                            <span class="toggle-password unshow" style="margin-top: -9px;">
+                                <i class="icon-eye-hide-line"></i>
+                            </span>
+                            <span id="passwordError" class="text-danger"></span>
+                        </fieldset>
+                        <fieldset class="position-relative password-item">
+                            <input class="input-password" type="password" placeholder="Confirm Password*" name="cnfPassword" id="cnfPassword" tabindex="2" value="" aria-required="true" required="">
+                            <span class="toggle-password unshow">
+                                <i class="icon-eye-hide-line"></i>
+                            </span>
+                            <span id="cnfPasswordError" class="text-danger"></span>
+                        </fieldset>
+                        <fieldset class="">
+                            <input class="" type="date" id="birthdate" asp-for="Birthdate" placeholder="Birthdate*" name="birthdate" tabindex="2" value="" aria-required="true" required="">
+                            <span id="birthdateError" class="text-danger"></span>
+                        </fieldset>
+                        <div class="d-flex align-items-center">
+                            <div class="tf-cart-checkbox">
+                                <div class="tf-checkbox-wrapp">
+                                    <input checked class="" type="checkbox" id="login-form_agree" name="agree_checkbox">
+                                    <div>
+                                        <i class="icon-check"></i>
+                                    </div>
+                                </div>
+                                <label class="text-secondary-2" for="login-form_agree">
+                                    I agree to the&nbsp;
+                                </label>
+                            </div>
+                            <a href="term-of-use.html" title="Terms of Service"> Terms of User</a>
+                        </div>
+                    </div>
+                    <div class="button-submit">
+                        <button class="tf-btn btn-fill" type="submit">
+                            <span class="text text-button">Register</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="right">
+                <h4 class="mb_8">Already have an account?</h4>
+                <p class="text-secondary">Welcome back. Sign in to access your personalized experience, saved preferences, and more. We're thrilled to have you with us again!</p>
+                <a href="@Url.Action("Login", "Account")" class="tf-btn btn-fill"><span class="text text-button">Login</span></a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /register -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        function validateInput(inputId, errorId) {
+            let inputElement = document.getElementById(inputId);
+            let errorElement = document.getElementById(errorId);
+
+            if (!inputElement) return;
+
+            inputElement.addEventListener("input", function () {
+                validateField(inputElement, errorElement);
+            });
+
+            inputElement.addEventListener("change", function () {
+                validateField(inputElement, errorElement);
+            });
+        }
+
+        function validateField(inputElement, errorElement) {
+            let value = inputElement.value.trim();
+            let id = inputElement.id;
+            let isValid = true;
+
+            // Clear previous errors
+            errorElement.innerText = "";
+
+            //  Individual Validation Rules
+            if (id === "firstName") {
+                let nameRegex = /^[A-Za-z\s]+$/; //  Only letters and spaces allowed
+
+                if (!nameRegex.test(value)) {
+                    errorElement.innerText = "First name can only contain letters.";
+                    isValid = false;
+                } else if (value.length < 3) {
+                    errorElement.innerText = "First name must be at least 3 characters.";
+                    isValid = false;
+                }
+                else{
+                    isValid = true;
+                }
+            }
+
+            if (id === "lastName") {
+                let nameRegex = /^[A-Za-z\s]+$/; //  Only letters and spaces allowed
+
+                 if (!nameRegex.test(value)) {
+                    errorElement.innerText = "Last name can only contain letters.";
+                    isValid = false;
+                } else if (value.length < 3) {
+                    errorElement.innerText = "Last name must be at least 3 characters.";
+                    isValid = false;
+                }
+                else{
+                    isValid = true;
+                }
+            }
+
+        if (id === "mobile") {
+            // Keep only digits and limit to 10 characters
+            value = value.replace(/\D/g, '').slice(0, 10);
+            inputElement.value = value; // This line had 'input', changed to 'inputElement'
+
+            if (!/^\d{10}$/.test(value)) {
+                errorElement.innerText = "Enter a valid 10-digit mobile number.";
+                isValid = false;
+            } else {
+                errorElement.innerText = ""; // Clear error
+                isValid = true;
+            }
+        }
+
+        if (id === "email") {
+            let emailRegex = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            if (!emailRegex.test(value)) {
+                errorElement.innerText = "Please enter a valid email address.";
+                isValid = false;
+            }
+        }
+
+
+            //  Strong Password Validation
+            if (id === "password") {
+                    let strongPasswordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+                    if (!strongPasswordRegex.test(value)) {
+                    errorElement.innerText = "Password must be at least 8 characters, with one uppercase letter, one number, and a special character.";
+                    isValid = false;
+                }
+                else{
+                    isValid = true;
+                }
+            }
+
+            //  Password Match Validation
+            if (id === "cnfPassword") {
+                if ($("#password").val() != $("#cnfPassword").val()) {
+                    errorElement.innerText = "Password and Confirm Password must match.";
+                    isValid = false;
+                }
+                else{
+                    isValid = true;
+                }
+            }
+
+            if (id === "birthdate") {
+                if(value === ""){
+                    errorElement.innerText = "Please select a birthdate.";
+                    isValid = false;
+                }
+                else{
+                    isValid = true;
+                }
+            }
+
+            return isValid;
+        }
+
+        //  Attach Validation to Inputs (Only Affected Input Displays Error)
+        validateInput("firstName", "firstNameError");
+        validateInput("lastName", "lastNameError");
+        validateInput("mobile", "mobileError");
+        validateInput("email", "emailError");
+        validateInput("password", "passwordError");
+        validateInput("cnfPassword", "cnfPasswordError");
+        validateInput("birthdate", "birthdateError");
+    });
+</script>
